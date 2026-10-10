@@ -24,15 +24,7 @@ retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
 
 @tool
 def rag_search(query: str) -> str:
-    """Search the university IT policy knowledge base for relevant policy content.
-
-    Use this tool whenever the user asks about university IT policies
-    (accounts, wifi, vpn, email, storage, printing, service desk, etc.).
-    Returns the most relevant policy text found. If no policy mentions
-    the specific detail requested (e.g. a phone number), the returned
-    context will not contain it, and the caller should respond that it
-    does not know.
-    """
+    """Search the university IT policy knowledge base for relevant policy text."""
     docs = retriever.invoke(query)
     if not docs:
         return "No relevant policy documents found in the knowledge base."
