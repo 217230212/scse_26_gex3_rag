@@ -33,11 +33,10 @@ text_generation_pipeline = pipeline(
     tokenizer=tokenizer,
     max_new_tokens=512,
     temperature=0.1,
-    do_sample=True,
+    do_sample=False,
     return_full_text=False,
 )
 llm = HuggingFacePipeline(pipeline=text_generation_pipeline)
-
 
 template = """You are a university IT support assistant.
 Answer the user's question using ONLY the context below.
@@ -58,7 +57,6 @@ def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
 
-
 rag_chain = (
     {"context": retriever | format_docs, "question": RunnablePassthrough()}
     | prompt
@@ -68,7 +66,6 @@ rag_chain = (
 
 
 def query_rag(question: str) -> str:
-    """Run the RAG chain on a question and return the answer."""
     return rag_chain.invoke(question)
 
 
